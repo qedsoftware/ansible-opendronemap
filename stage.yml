@@ -1,0 +1,7 @@
+# Copyright (c) 2016, Quantitative Engineering Design Inc.
+# All Rights Reserved.
+
+---
+- hosts: opendronemap
+  roles:
+    - opendronemap
