@@ -1,0 +1,4 @@
+---
+
+opendronemap_work_dir: "{{ ansible_env.HOME }}/OpenDroneMap"
+opendronemap_async_superbuild: false
