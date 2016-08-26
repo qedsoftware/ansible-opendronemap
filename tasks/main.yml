@@ -1,0 +1,128 @@
+# Copyright (c) 2016, Quantitative Engineering Design Inc.
+# All Rights Reserved.
+
+# Ansible port of script: https://github.com/OpenDroneMap/OpenDroneMap/blob/master/configure.sh
+---
+
+- name: Install dependencies
+  apt: name={{ item }} state=latest update_cache=yes cache_valid_time=3600
+  with_items:
+    - build-essential
+    - cmake
+    - gdal-bin
+    - git
+    - libavcodec-dev
+    - libavformat-dev
+    - libeigen3-dev
+    - libflann-dev
+    - libgdal-dev
+    - libgeotiff-dev
+    - libgtk2.0-dev
+    - libjasper-dev
+    - libjpeg-dev
+    - liblapack-dev
+    - libpng-dev
+    - libproj-dev
+    - libswscale-dev
+    - libtbb-dev
+    - libtbb2
+    - libtiff-dev
+    - libvtk5-dev
+    - libxext-dev
+    - pkg-config
+    - python-dev
+    - python-numpy
+    - python-pip
+  become: yes
+  become_user: root
+
+- name: Remove package
+  apt: name={{ item }} state=absent update_cache=no purge=yes
+  with_items:
+    - libdc1394-22-dev
+  become: yes
+  become_user: root
+
+- name: Install OpenSfM dependencies
+  apt: name={{ item }} state=latest update_cache=yes cache_valid_time=3600
+  with_items:
+    - libboost-date-time-dev
+    - libboost-filesystem-dev
+    - libboost-iostreams-dev
+    - libboost-python-dev
+    - libboost-regex-dev
+    - libboost-thread-dev
+    - libgoogle-glog-dev
+    - libsuitesparse-dev
+    - python-networkx
+  become: yes
+  become_user: root
+
+- pip: name={{ item }}
+  with_items:
+    - PyYAML
+    - exifread
+    - gpxpy
+    - xmltodict
+  become: yes
+  become_user: root
+
+- name: Installing Ecto Dependencies
+  pip: name={{ item }}
+  with_items:
+    - catkin-pkg
+  become: yes
+  become_user: root
+
+- name: Installing Ecto Dependencies
+  apt: name={{ item }} state=latest update_cache=yes cache_valid_time=3600
+  with_items:
+    - python-empy
+    - python-nose
+    - python-pyside
+  become: yes
+  become_user: root
+
+- name: Installing OpenDroneMap Dependencies
+  apt: name={{ item }} state=latest update_cache=yes cache_valid_time=3600
+  with_items:
+    - jhead
+    - liblas-bin
+    - python-pyexiv2
+    - python-scipy
+  become: yes
+  become_user: root
+
+- name: Clone OpenDroneMap repository {{ opendronemap_work_dir }}
+  git:
+    repo=https://github.com/OpenDroneMap/OpenDroneMap
+    dest="{{ opendronemap_work_dir }}"
+    version=v0.1
+
+- name: Create build directory
+  file:
+    path="{{ opendronemap_work_dir }}/SuperBuild/build"
+    state=directory
+
+- name: Configure project
+  command: cmake ..
+  args:
+    chdir: "{{ opendronemap_work_dir }}/SuperBuild/build"
+
+- name: Run superbuild
+  command: cmake --build .
+  args:
+    chdir: "{{ opendronemap_work_dir }}/SuperBuild/build"
+  environment:
+    PYTHONPATH: "{{ opendronemap_work_dir }}/SuperBuild/install/lib/python2.7/dist-packages:{{ opendronemap_work_dir }}/SuperBuild/src/opensfm"
+  when: not opendronemap_async_superbuild
+
+- name: Run superbuild (async)
+  command: cmake --build .
+  args:
+    chdir: "{{ opendronemap_work_dir }}/SuperBuild/build"
+  environment:
+    PYTHONPATH: "{{ opendronemap_work_dir }}/SuperBuild/install/lib/python2.7/dist-packages:{{ opendronemap_work_dir }}/SuperBuild/src/opensfm"
+  async: 7200 # 2 hours limit for task
+  poll: 60 # poll every minute
+  when: opendronemap_async_superbuild
