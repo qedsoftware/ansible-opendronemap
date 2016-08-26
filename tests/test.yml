@@ -1,0 +1,9 @@
+# Copyright (c) 2016, Quantitative Engineering Design Inc.
+# All Rights Reserved.
+
+---
+- hosts: localhost
+  roles:
+    - opendronemap
+  vars:
+    opendronemap_async_superbuild: true
