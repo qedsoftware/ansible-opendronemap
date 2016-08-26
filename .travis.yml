@@ -14,7 +14,7 @@ install:
   - sudo pip install 'requests[security]'
   - sudo pip install ansible
 
-install:
+script:
   # Fix layout
   - cd ..
   - mv ansible-opendronemap opendronemap
