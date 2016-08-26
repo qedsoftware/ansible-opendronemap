@@ -29,6 +29,15 @@ Example Playbook
 Local installation
 ==================
 
+Install Ansible by ``pip``:
+
+.. code-block:: shell
+
+  > sudo apt-get install python-pip python-dev
+  > sudo pip install ansible
+  > ansible --version
+  ansible 2.1.1.0
+
 Clone to directory ``opendronemap``
 (name of the directory is important - it's a name of the role):
 
