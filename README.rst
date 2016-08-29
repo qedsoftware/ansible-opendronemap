@@ -1,5 +1,8 @@
-opendronemap
-============
+opendronemap |Travis|
+=====================
+
+.. |Travis| image:: https://travis-ci.org/qedsoftware/ansible-opendronemap.svg?branch=master
+  :target: https://travis-ci.org/qedsoftware/ansible-opendronemap/builds
 
 Ansible version of `OpenDroneMap build script`_.
 
