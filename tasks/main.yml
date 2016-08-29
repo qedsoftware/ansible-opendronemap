@@ -4,6 +4,13 @@
 # Ansible port of script: https://github.com/OpenDroneMap/OpenDroneMap/blob/master/configure.sh
 ---
 
+- command: which python
+  register: path_to_python
+
+- assert:
+    that:
+      - "'/usr/bin/python' == path_to_python.stdout"
+
 - name: Install dependencies
   apt: name={{ item }} state=latest update_cache=yes cache_valid_time=3600
   with_items:
