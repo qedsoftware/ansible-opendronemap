@@ -116,16 +116,16 @@
   args:
     chdir: "{{ opendronemap_work_dir }}/SuperBuild/build"
 
-- name: Run superbuild
-  command: cmake --build .
+- name: Run superbuild (cpu {{ ansible_processor_vcpus }})
+  command: cmake --build . -- -j {{ ansible_processor_vcpus }}
   args:
     chdir: "{{ opendronemap_work_dir }}/SuperBuild/build"
   environment:
     PYTHONPATH: "{{ opendronemap_work_dir }}/SuperBuild/install/lib/python2.7/dist-packages:{{ opendronemap_work_dir }}/SuperBuild/src/opensfm"
   when: not opendronemap_async_superbuild
 
-- name: Run superbuild (async)
-  command: cmake --build .
+- name: Run superbuild (async, cpu {{ ansible_processor_vcpus }})
+  command: cmake --build . -- -j {{ ansible_processor_vcpus }}
   args:
     chdir: "{{ opendronemap_work_dir }}/SuperBuild/build"
   environment:
