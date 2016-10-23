@@ -6,7 +6,7 @@ opendronemap |Travis|
 
 Ansible version of `OpenDroneMap build script`_.
 
-.. _OpenDroneMap build script: https://github.com/OpenDroneMap/OpenDroneMap/blob/master/configure.sh
+.. _OpenDroneMap build script: https://github.com/qedsoftware/OpenDroneMap/blob/master/configure.sh
 
 Role Variables
 --------------
