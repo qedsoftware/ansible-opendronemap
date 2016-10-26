@@ -1,7 +1,7 @@
 # Copyright (c) 2016, Quantitative Engineering Design Inc.
 # All Rights Reserved.
 
-# Ansible port of script: https://github.com/OpenDroneMap/OpenDroneMap/blob/master/configure.sh
+# Ansible port of script: https://github.com/qedsoftware/OpenDroneMap/blob/master/configure.sh
 ---
 
 - command: which python
@@ -102,9 +102,9 @@
 
 - name: Clone OpenDroneMap repository {{ opendronemap_work_dir }}
   git:
-    repo=https://github.com/OpenDroneMap/OpenDroneMap
+    repo=https://github.com/qedsoftware/OpenDroneMap
     dest="{{ opendronemap_work_dir }}"
-    version=v0.1
+    version=29a537f9c6434e0b940b39ec23246fcbc16dcbbf
 
 - name: Create build directory
   file:
